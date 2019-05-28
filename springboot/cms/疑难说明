@@ -1,0 +1,17 @@
+
+表格嵌套图片
+
+tbody tr{
+		height: 150px;
+	}
+	tbody tr .layui-table-cell{
+		line-height: 150px;
+		height: 150px;
+	}
+	.layui-table-cell img{
+		max-width: 150px;
+	}
+
+删除中间操作按钮错误
+<div style="width: 100%;height: 1px;clear: both">
+		</div>

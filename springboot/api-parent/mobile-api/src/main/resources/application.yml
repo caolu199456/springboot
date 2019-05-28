@@ -1,0 +1,12 @@
+
+spring:
+  profiles:
+    active: dev
+
+logging:
+  config: classpath:${spring.profiles.active}/logback.xml
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 500
+    max-connections: 2000

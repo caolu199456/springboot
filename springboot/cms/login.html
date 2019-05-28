@@ -1,0 +1,101 @@
+<!doctype html>
+<html  class="x-admin-sm">
+<head>
+	<meta charset="UTF-8">
+	<title>后台登录-X-admin2.1</title>
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+</head>
+<link rel="stylesheet" href="lib/layui/css/layui.css">
+<link rel="stylesheet" href="css/font.css">
+<link rel="stylesheet" href="css/xadmin.css">
+
+<body class="login-bg">
+    
+    <div class="login layui-anim layui-anim-up" id="container">
+        <div class="message">xxx管理登录</div>
+        <div id="darkbannerwrap"></div>
+        
+        <form method="post" class="layui-form" >
+            <input name="username" placeholder="账号" v-model="sysUser.account"  type="text" class="layui-input" >
+            <hr class="hr15">
+            <input name="password"  placeholder="密码"  v-model="sysUser.password" type="password" class="layui-input">
+            <hr class="hr15">
+            <input value="登录" style="width:100%;" type="button" @click="login">
+            <hr class="hr20" >
+        </form>
+    </div>
+    <script type="text/javascript" src="./lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="./lib/jsencrypt/jsencrypt.min.js"></script>
+    <script src="lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/xadmin.js"></script>
+    <script type="text/javascript" src="js/cookie.js"></script>
+    <script type="text/javascript" src="lib/vue/vue.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/config.js"></script>
+    <script>
+        if (window != top){
+            top.location.href = location.href;
+        }
+        var vm = new Vue({
+            el: '#container',
+            data: {
+                sysUser: {},
+                loginId:null,
+                publicKey:null
+            },
+            methods: {
+                login: function () {
+                    if (isEmpty(this.sysUser.account)) {
+                        layer.alert("请输入用户名");
+                        return;
+                    }
+                    if (isEmpty(this.sysUser.password)) {
+                        layer.alert("请输入用户名");
+                        return;
+                    }
+
+                    var postData = {};
+                    postData.account = vm.sysUser.account;
+                    postData.loginId = vm.loginId;
+
+                    var jsEncrypt = new JSEncrypt();
+                    jsEncrypt.setPublicKey(vm.publicKey);
+                    postData.encryptPassword = jsEncrypt.encrypt(vm.sysUser.password);
+
+                    $.ajax({
+                        url: config.baseUrl + "sys/login",
+                        type:"POST",
+                        data: JSON.stringify(postData),
+                        success:function (r) {
+                            if (r.code == 1) {
+                                window.location.href = config.webUrl + "index.html";
+                                sessionStorage.setItem("loginData", r.data);
+                            }else {
+                                layer.alert(r.message);
+                            }
+                        }
+                    });
+                }
+            },
+            created:function () {
+                $.ajax({
+                    url: config.baseUrl + "sys/getPublicKey",
+                    type:"GET",
+                    success:function (r) {
+                        if (r.code == 1) {
+                            vm.loginId = r.data.loginId;
+                            vm.publicKey = r.data.publicKey;
+                        }else {
+                            layer.alert(r.message);
+                        }
+                    }
+                })
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+pay:
+  zfb:
+    appId: xxx
+    privateKey: xxx
+    publicKey: xxx
+  wx:
+    h5:
+      appId: xxx
+      secret: xxx
+      #商户id
+      mchId: xxx
+      #api秘钥
+      key: xxx
+      #证书路径包含文件名 也可以配置绝对路径 如/cert/cert.p12
+      certPath: 'classpath:dev/cert/wx/h5/cert.p12'
+    app:
+      appId: xxx
+      secret: xxx
+      #商户id
+      mchId: xxx
+      #api秘钥
+      key: xxx
+      #证书路径包含文件名
+      certPath:
+spring:
+    datasource:
+        name: test
+        url: jdbc:mysql://127.0.0.1:3306/example_pay?useSSL=false&autoReconnect=true&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+        # 使用druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        druid:
+          connection-init-sqls: set names utf8mb4;
+          initial-size: 10
+          min-idle: 10
+          max-active: 50
+          max-wait: 60000
+          time-between-eviction-runs-millis: 60000
+          min-evictable-idle-time-millis: 300000
+          validation-query: SELECT 'x'
+          test-while-idle: true
+          test-on-borrow: false
+          test-on-return: false
+          pool-prepared-statements: true
+          max-pool-prepared-statement-per-connection-size: 20
+          filters: stat,wall,slf4j
+          aop-patterns: com.example.core.model.*.service.impl.*
+          filter:
+            stat:
+              slow-sql-millis: 500
+              merge-sql: true
+          stat-view-servlet:
+            enabled: true
+            url-pattern: /druid/*
+            login-username: root
+            login-password: root
+            reset-enable: true
+            allow:
+            deny:
+          web-stat-filter:
+            enabled: true
+            url-pattern: /*
+            exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+
+    redis:
+      host: 127.0.0.1
+      password: homewell
+      port: 6379
+      lettuce:
+        pool:
+          max-idle: 100
+          min-idle: 1
+          max-active: 1000
+          max-wait: -1ms
+        shutdown-timeout: 10000ms
+      database: 0
+      timeout: 60000ms
+
+dubbo:
+  application:
+    name: base-service-provider
+  provider:
+    timeout: 120000
+  #    payload: 100000000 #此参数设置传输最大值，不建议设置，如果大传输需要多次调用取出
+  protocol:
+    port: -1 #-1代表dubbo自动获取可用端口2.4.0+支持
+    name: dubbo
+  scan:
+   basePackages: com.sunsea
+  registry:
+      address: zookeeper://127.0.0.1:2181
+

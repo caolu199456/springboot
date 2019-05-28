@@ -1,0 +1,16 @@
+spring:
+    dubbo:
+      application:
+        name: provider
+      registry:
+        address: zookeeper://127.0.0.1:2181
+      protocol:
+        name: dubbo
+        #port: -1 #-1或者不配置代表dubbo自动获取可用端口2.4.0+支持
+      scan: com.example
+    devtools:
+        restart:
+          enabled: true
+
+swagger:
+  isOpen: false #swagger是否打开

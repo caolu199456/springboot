@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.user.module.sys.dao.SysMenuDao" >
+
+    <select id="queryList" resultType="com.example.user.module.sys.entity.SysMenuEntity">
+        select
+        *
+        from sys_menu
+        order by sort asc
+    </select>
+    <select id="queryMaxSortByPid" resultType="java.lang.Integer">
+        select ifnull(max(sort),0) from sys_menu where parent_id=#{parentId}
+    </select>
+</mapper>

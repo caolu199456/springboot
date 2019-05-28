@@ -1,0 +1,4 @@
+springboot+dubbo+mybatisplus
+
+1.本项目需要lombok插件
+2.配置好application-dev.yml直接运行

@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+  main:
+    #进制tomcat端口启动
+    web-application-type: none
+
+logging:
+  config: classpath:${spring.profiles.active}/logback.xml

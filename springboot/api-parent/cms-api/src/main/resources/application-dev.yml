@@ -1,0 +1,36 @@
+
+server:
+  port: 8082
+  servlet:
+    context-path: /cmsapi
+
+spring:
+  redis:
+    host: 127.0.0.1
+    password: homewell
+    port: 6379
+    lettuce:
+      pool:
+        max-idle: 100
+        min-idle: 1
+        max-active: 1000
+        max-wait: -1ms
+      shutdown-timeout: 10000ms
+    database: 0
+    timeout: 60000ms
+
+dubbo:
+  application:
+    name: base-api
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  scan:
+    base-packages: com.example
+
+
+
+oss:
+  key: 11111
+  secret: 1111
+  endpoint: oss-cn-shanghai.aliyuncs.com
+  defaultBucket: charge-test

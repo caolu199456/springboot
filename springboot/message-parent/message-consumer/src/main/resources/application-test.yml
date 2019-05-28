@@ -1,0 +1,4 @@
+spring:
+
+swagger:
+  isOpen: false #swagger是否打开

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+    <!--classPathEntry:数据库的JDBC驱动 -->
+    <properties resource="generator.properties" />
+
+    <context id="context1" targetRuntime="MyBatis3">
+
+
+        <!-- 指定生成的java文件的编码,没有直接生成到项目时中文可能会乱码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <commentGenerator type="com.changchong.MyCommentGenerator">
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.1.211/changchong_app" userId="changchong" password="123456" />
+
+
+
+        <!--Intellij IDEA targetProject为"src/main/java"-->
+        <javaModelGenerator targetPackage="com.changchong.model.${modelPackage}.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="false" />
+        </javaModelGenerator>
+
+        <!-- 必须的（1 required） -->
+        <!-- map xml 生成器 -->
+        <sqlMapGenerator
+                targetPackage="com.changchong.model.${modelPackage}.dao.impl" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- 可选的（0 or 1） -->
+        <!-- mapper 或者就是dao接口生成器 -->
+        <!--eclipse  targetProject为"ch_two_service"-->
+        <!--Intellij IDEA targetProject为"src/main/java"-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.changchong.model.${modelPackage}.dao" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="methodNameCalculator" value="extended" />
+        </javaClientGenerator>
+
+
+        <!-- 必须的（1...N） -->
+        <!-- pojo 实体生成器 -->
+        <!-- tableName:用于自动生成代码的数据库表; -->
+         <!--domainObjectName:对应于数据库表的javaBean类名-->
+
+        <table tableName="${tableName}" domainObjectName="${modelClassName}" enableInsert="true"
+           enableCountByExample="false"
+           enableUpdateByExample="false"
+           enableDeleteByExample="false"
+           enableSelectByExample="false"
+           selectByExampleQueryId="false" >
+           <property name="useActualColumnNames" value="false"/>
+        </table>
+
+    </context>
+
+</generatorConfiguration>

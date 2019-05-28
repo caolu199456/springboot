@@ -1,0 +1,30 @@
+server:
+  connection-timeout: 10000000s
+  compression:
+    enabled: true
+
+spring:
+   kafka:
+      bootstrap-servers: 192.168.1.230:9092
+      producer:
+        retries: 3
+        value-serializer: com.example.config.ObjectSerializer
+
+dubbo:
+  application:
+    name: message-provider
+  provider:
+    timeout: 120000
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  protocol:
+    port: -1 #-1代表dubbo自动获取可用端口2.4.0+支持
+    name: dubbo
+    serialization: kryo
+    server: netty4
+  scan:
+   basePackages: com.example
+
+
+swagger:
+  isOpen: false #swagger是否打开

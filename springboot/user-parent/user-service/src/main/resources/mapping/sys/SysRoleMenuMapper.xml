@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.user.module.sys.dao.SysRoleMenuDao">
+
+    <select id="queryList" resultType="com.example.user.module.sys.entity.SysRoleMenuEntity"
+            parameterType="java.util.Map">
+        select
+        *
+        from sys_role_menu
+        <choose>
+            <when test="orderName != null and orderName.trim() != ''">
+                order by ${orderName} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="queryTotal" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select
+        count(id)
+        from sys_role_menu
+    </select>
+    <select id="selectByRoleId" resultType="com.example.user.module.sys.entity.SysMenuEntity">
+        select b.* from sys_role_menu a
+        left join sys_menu b on a.menu_id = b.id
+        where a.role_id=#{roleId} and b.status=1
+    </select>
+</mapper>
